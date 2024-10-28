@@ -6,68 +6,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 const withPWA = require('next-pwa')({
   dest: 'public',
-  runtimeCaching: [
-    {
-      urlPattern: /\.(?:ts|m3u8)$/i,
-      handler: 'NetworkOnly',
-    },
-    {
-      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-font-assets',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-image-assets',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:mp4)$/i,
-      handler: 'CacheFirst',
-      options: {
-        rangeRequests: true,
-        cacheName: 'static-video-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:js)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-js-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:css)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-style-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-  ],
+  runtimeCaching: [],
   register: true,
   skipWaiting: true,
   disableDevLogs: true,
@@ -120,7 +59,17 @@ module.exports = async phase => {
           unoptimized: true,
         },
         swcMinify: true,
-        transpilePackages: [ "antd", "@ant-design", "rc-util", "rc-pagination", "rc-picker", "rc-notification", "rc-tooltip", "rc-tree", "rc-table" ],
+        transpilePackages: [
+          'antd',
+          '@ant-design',
+          'rc-util',
+          'rc-pagination',
+          'rc-picker',
+          'rc-notification',
+          'rc-tooltip',
+          'rc-tree',
+          'rc-table',
+        ],
         webpack(config) {
           config.module.rules.push({
             test: /\.svg$/i,
